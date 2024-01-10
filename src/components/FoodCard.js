@@ -8,7 +8,7 @@ const FoodCard = (props) => {
     return (
         <div>
             <div className="card border-danger mt-3" style={{ width: "18rem", maxHeight: "360px" }}>
-                <img src={props.image} className="card-img-top" alt="..." />
+                <img src={props.image} className="card-img-top" alt="..." style={{ height: "170px", objectFit: "fill" }} />
                 <div className="card-body">
                     <h5 className="card-title fs-4">{props.foodName}</h5>
                     <div className="container w-100">

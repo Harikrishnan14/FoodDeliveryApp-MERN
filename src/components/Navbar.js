@@ -1,7 +1,15 @@
 import React from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const Navbar = () => {
+
+    let navigate = useNavigate()
+
+    const handleLogout = () => {
+        localStorage.removeItem("authToken")
+        navigate("/login")
+    }
+
     return (
         <div>
             <nav className="navbar navbar-expand-lg navbar-dark bg-danger">
@@ -11,17 +19,26 @@ const Navbar = () => {
                         <span className="navbar-toggler-icon"></span>
                     </button>
                     <div className="collapse navbar-collapse" id="navbarNav">
-                        <ul className="navbar-nav fw-bold">
+                        <ul className="navbar-nav fw-bold me-auto">
                             <li className="nav-item">
-                                <Link className="nav-link" to="/">Home</Link>
+                                <Link className="nav-link active" to="/">Home</Link>
                             </li>
-                            <li className="nav-item">
-                                <Link className="nav-link" to="/login">Login</Link>
-                            </li>
-                            <li className="nav-item">
-                                <Link className="nav-link" to="/signup">Sign Up</Link>
-                            </li>
+                            {(localStorage.getItem("authToken")) ?
+                                <li className="nav-item">
+                                    <Link className="nav-link active" to="/">My Orders</Link>
+                                </li>
+                                : ""}
                         </ul>
+                        {(!localStorage.getItem("authToken")) ?
+                            <div className="d-flex">
+                                <Link className="btn bg-white text-danger fw-bold mx-1" to="/login">Login</Link>
+                                <Link className="btn bg-white text-danger fw-bold mx-1" to="/signup">Sign Up</Link>
+                            </div>
+                            :
+                            <div>
+                                <div className='btn bg-white text-danger fw-bold mx-1'>My Cart</div>
+                                <div className='btn bg-white text-danger fw-bold mx-1' onClick={handleLogout}>Logout</div>
+                            </div>}
                     </div>
                 </div>
             </nav>
