@@ -1,9 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import { Badge } from 'react-bootstrap'
+import Modal from '../Modal'
+import Cart from '../Pages/Cart'
+import { useCart } from './ContextReducer'
 
 const Navbar = () => {
 
     let navigate = useNavigate()
+    let data = useCart()
+
+    const [cartView, setCartView] = useState(false)
 
     const handleLogout = () => {
         localStorage.removeItem("authToken")
@@ -36,7 +43,11 @@ const Navbar = () => {
                             </div>
                             :
                             <div>
-                                <div className='btn bg-white text-danger fw-bold mx-1'>My Cart</div>
+                                <div className='btn bg-white text-danger fw-bold mx-1' onClick={() => setCartView(true)}>
+                                    My Cart
+                                    {data.length === 0 ? "" : <Badge className='ms-2' pill bg="secondary">{data.length}</Badge>}
+                                </div>
+                                {cartView ? <Modal onClose={() => setCartView(false)}> <Cart /> </Modal> : null}
                                 <div className='btn bg-white text-danger fw-bold mx-1' onClick={handleLogout}>Logout</div>
                             </div>}
                     </div>

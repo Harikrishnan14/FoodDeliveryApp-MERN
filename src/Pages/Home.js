@@ -75,9 +75,8 @@ const Home = () => {
                                         .map((filteredItems) => {
                                             return (
                                                 <div key={filteredItems._id} className='col-12 col-md-6 col-lg-3'>
-                                                    <FoodCard foodName={filteredItems.name}
-                                                        options={filteredItems.options[0]}
-                                                        image={filteredItems.img} />
+                                                    <FoodCard foodItem={filteredItems}
+                                                        options={filteredItems.options[0]} />
                                                 </div>
                                             )
                                         })

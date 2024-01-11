@@ -9,16 +9,20 @@ import Login from './Pages/Login';
 // import '../node_modules/bootstrap-dark-5/dist/css/bootstrap-dark.min.css'
 import '../node_modules/bootstrap/dist/js/bootstrap.bundle'
 import SignUp from './Pages/SignUp';
+import { CartProvider } from './components/ContextReducer';
+
 
 function App() {
   return (
-    <Router>
-      <Routes>
-        <Route exact path='/' element={<Home />} />
-        <Route exact path='/login' element={<Login />} />
-        <Route exact path='/signup' element={<SignUp />} />
-      </Routes>
-    </Router>
+    <CartProvider>
+      <Router>
+        <Routes>
+          <Route exact path='/' element={<Home />} />
+          <Route exact path='/login' element={<Login />} />
+          <Route exact path='/signup' element={<SignUp />} />
+        </Routes>
+      </Router>
+    </CartProvider>
   );
 }
 
