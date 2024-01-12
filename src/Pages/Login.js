@@ -17,13 +17,14 @@ const Login = () => {
       body: JSON.stringify({ email: credentials.email, password: credentials.password })
     })
     const json = await response.json()
-    console.log(json);
+    // console.log(json);
 
     if (!json.success) {
       alert("Invalid Login Credentials")
     }
 
     if (json.success) {
+      localStorage.setItem("userEmail", credentials.email)
       localStorage.setItem("authToken", json.authToken)
       navigate("/")
     }
