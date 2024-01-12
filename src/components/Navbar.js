@@ -32,7 +32,7 @@ const Navbar = () => {
                             </li>
                             {(localStorage.getItem("authToken")) ?
                                 <li className="nav-item">
-                                    <Link className="nav-link active" to="/">My Orders</Link>
+                                    <Link className="nav-link active" to="/myorders">My Orders</Link>
                                 </li>
                                 : ""}
                         </ul>
