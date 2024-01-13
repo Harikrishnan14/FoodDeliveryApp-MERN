@@ -36,19 +36,24 @@ const Login = () => {
   }
 
   return (
-    <div className='container'>
-      <form onSubmit={handleSubmit}>
-        <div className="mb-3">
-          <label htmlFor="email" className="form-label">Email</label>
-          <input type="email" className="form-control" id="email" name="email" value={credentials.email} onChange={handleOnChange} aria-describedby="emailHelp" />
-        </div>
-        <div className="mb-3">
-          <label htmlFor="password" className="form-label">Password</label>
-          <input type="password" className="form-control" id="password" name="password" value={credentials.password} onChange={handleOnChange} />
-        </div>
-        <button type="submit" className="me-3 btn btn-danger">Login</button>
-        <span>Don't have an account? <Link to='/signup'>Signup</Link></span>
-      </form>
+    <div className='container' style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', height: '100vh' }} >
+      <div style={{ border: "1px solid red", padding: "35px", borderRadius: "15px", width: "35vw" }}>
+        <h1 className='mb-4'>Login</h1>
+        <form onSubmit={handleSubmit} >
+          <div className="mb-3">
+            <label htmlFor="email" className="form-label">Email</label>
+            <input type="email" className="form-control" id="email" name="email" value={credentials.email} onChange={handleOnChange} aria-describedby="emailHelp" />
+          </div>
+          <div className="mb-3">
+            <label htmlFor="password" className="form-label">Password</label>
+            <input type="password" className="form-control" id="password" name="password" value={credentials.password} onChange={handleOnChange} />
+          </div>
+          <button type="submit" className="mt-2 btn btn-danger">Login</button>
+          <div className='mt-4'>
+            <span>Don't have an account? <Link to='/signup'>Signup</Link></span>
+          </div>
+        </form>
+      </div>
     </div>
   )
 }
