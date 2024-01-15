@@ -1,22 +1,26 @@
 import React, { useEffect, useState } from 'react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
+import axios from 'axios';
 
 const MyOrder = () => {
 
   const [orderData, setOrderData] = useState("");
 
   const fetchMyOrder = async () => {
-    await fetch("http://localhost:5000/api/myOrderData", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ email: localStorage.getItem("userEmail") })
-    }).then(async (res) => {
-      let response = await res.json()
-      await setOrderData(response)
-    })
+    try {
+      const response = await axios.post("http://localhost:5000/api/myOrderData", {
+        email: localStorage.getItem("userEmail"),
+      }, {
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
+
+      setOrderData(response.data);
+    } catch (error) {
+      console.error('Error while fetching my order data:', error);
+    }
   }
 
   useEffect(() => {

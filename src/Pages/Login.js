@@ -1,3 +1,4 @@
+import axios from 'axios'
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
@@ -8,28 +9,33 @@ const Login = () => {
   let navigate = useNavigate()
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    const response = await fetch("http://localhost:5000/api/login", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({ email: credentials.email, password: credentials.password })
-    })
-    const json = await response.json()
-    // console.log(json);
+    e.preventDefault();
 
-    if (!json.success) {
-      alert("Invalid Login Credentials")
+    try {
+      const response = await axios.post("http://localhost:5000/api/login", {
+        email: credentials.email,
+        password: credentials.password
+      }, {
+        headers: {
+          "Content-Type": "application/json"
+        }
+      });
+
+      const { success, authToken } = response.data;
+
+      if (!success) {
+        alert("Invalid Login Credentials");
+      }
+
+      if (success) {
+        localStorage.setItem("userEmail", credentials.email);
+        localStorage.setItem("authToken", authToken);
+        navigate("/");
+      }
+    } catch (error) {
+      console.error('Error during login:', error);
     }
-
-    if (json.success) {
-      localStorage.setItem("userEmail", credentials.email)
-      localStorage.setItem("authToken", json.authToken)
-      navigate("/")
-    }
-
-  }
+  };
 
   const handleOnChange = (e) => {
     setCredentials({ ...credentials, [e.target.name]: e.target.value })

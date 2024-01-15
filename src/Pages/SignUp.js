@@ -1,3 +1,4 @@
+import axios from 'axios'
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 
@@ -8,26 +9,33 @@ const SignUp = () => {
     let navigate = useNavigate()
 
     const handleSubmit = async (e) => {
-        e.preventDefault()
-        const response = await fetch("http://localhost:5000/api/createuser", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({ name: credentials.name, email: credentials.email, password: credentials.password, location: credentials.location })
-        })
-        const json = await response.json()
-        console.log(json);
+        e.preventDefault();
 
-        if (!json.success) {
-            alert("Invalid Credentials")
+        try {
+            const response = await axios.post("http://localhost:5000/api/createuser", {
+                name: credentials.name,
+                email: credentials.email,
+                password: credentials.password,
+                location: credentials.location
+            }, {
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
+
+            const { success } = response.data;
+
+            if (!success) {
+                alert("Invalid Credentials");
+            }
+
+            if (success) {
+                navigate('/login');
+            }
+        } catch (error) {
+            console.error('Error during signup:', error);
         }
-
-        if (json.success) {
-            navigate('/login')
-        }
-
-    }
+    };
 
     const handleOnChange = (e) => {
         setCredentials({ ...credentials, [e.target.name]: e.target.value })

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Navbar from '../components/Navbar'
 import Footer from '../components/Footer'
 import FoodCard from '../components/FoodCard'
+import axios from 'axios'
 
 const Home = () => {
 
@@ -10,18 +11,20 @@ const Home = () => {
     const [search, setSearch] = useState("")
 
     const loadData = async () => {
-        let response = await fetch("http://localhost:5000/api/foodData", {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            }
-        });
-        response = await response.json()
-        // console.log(response[0], response[1]);
+        try {
+            const response = await axios.post("http://localhost:5000/api/foodData", {}, {
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            });
 
-        setFoodItem(response[0]);
-        setFoodCategory(response[1])
-    }
+            const [foodItemData, foodCategoryData] = response.data;
+            setFoodItem(foodItemData);
+            setFoodCategory(foodCategoryData);
+        } catch (error) {
+            console.error('Error while fetching data:', error);
+        }
+    };
 
     useEffect(() => {
         loadData()
